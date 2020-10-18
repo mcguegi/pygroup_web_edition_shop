@@ -1,7 +1,7 @@
 <h1 align="center">
 	<img
 		width="200"
-		alt="The Lounge"
+		alt="PygroupLogo"
 		src="https://assets.stickpng.com/thumbs/5aafb0c37603fc558cffc0bb.png">
 </h1>
 
