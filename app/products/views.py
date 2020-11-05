@@ -1,6 +1,8 @@
 from http import HTTPStatus
 from flask import Blueprint, Response, request
 
+from app.products.models import get_all_categories, create_new_category
+
 products = Blueprint("products", __name__, url_prefix='/products')
 
 EMPTY_SHELVE_TEXT = "Empty shelve!"
@@ -26,3 +28,26 @@ def dummy_product_two():
     methods.
     """
     return Response(DUMMY_TEXT, status=HTTPStatus.OK)
+
+
+@products.route('/categories')
+def get_categories():
+    """
+        Verificar que si get_all_categories es [] 400, message = "No hay nada"
+    :return:
+    """
+    categories = get_all_categories()
+    return {"message": "OK!", "categories": categories}, 200
+
+
+@products.route('/add-category', methods=['POST'])
+def create_category():
+    """
+
+    :return:
+    """
+    if request.method == "POST":
+        data = request.json
+        category = create_new_category(data["name"])
+
+        return Response("Category created!", status=201)
