@@ -8,6 +8,12 @@ products = Blueprint("products", __name__, url_prefix='/products')
 EMPTY_SHELVE_TEXT = "Empty shelve!"
 PRODUCTS_TITLE = "<h1> Products </h1>"
 DUMMY_TEXT = "Dummy method to show how Response works"
+RESPONSE_BODY = {
+    "message": "",
+    "data": [],
+    "errors": [],
+    "metadata": []
+}
 
 
 @products.route('/dummy-product', methods=['GET', 'POST'])
@@ -37,7 +43,11 @@ def get_categories():
     :return:
     """
     categories = get_all_categories()
-    return {"message": "OK!", "categories": categories}, 200
+
+    RESPONSE_BODY["message"] = "OK"
+    RESPONSE_BODY["data"] = categories
+
+    return RESPONSE_BODY, 200
 
 
 @products.route('/add-category', methods=['POST'])
