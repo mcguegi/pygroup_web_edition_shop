@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from app.db import db
+from flask import jsonify
+
+from app.db import db, ma
 
 
 class Product(db.Model):
@@ -28,6 +30,11 @@ class Category(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now())
 
 
+class CategorySchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Category
+
+
 class Stock(db.Model):
     """
 
@@ -41,6 +48,8 @@ class Stock(db.Model):
 
 def get_all_categories():
     categories = Category.query.all()
+    category_schema = CategorySchema()
+    categories = [category_schema.dump(category) for category in categories]
     return categories
 
 
