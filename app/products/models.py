@@ -20,6 +20,12 @@ class Product(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now())
 
 
+class ProductSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Product
+        fields = ["id", "name", "price"]
+
+
 class Category(db.Model):
     """
 
@@ -61,3 +67,22 @@ def create_new_category(name):
         return category
 
     return None
+
+
+def get_all_products():
+    products_qs = Product.query.all()
+    product_schema = ProductSchema()
+    products_serialization = [product_schema.dump(product) for product in
+                              products_qs]
+
+    return products_serialization
+
+
+def get_product_by_id(id):
+    product_qs = Product.query.filter_by(id=id).first()
+    product_schema = ProductSchema()
+    p = product_schema.dump(product_qs)
+    return p
+
+
+
