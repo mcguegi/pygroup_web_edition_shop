@@ -7,9 +7,6 @@ from app.products.models import (
     create_new_category,
     get_all_products,
     get_product_by_id,
-    create_product,
-    get_stock_by_product,
-    get_products_with_low_stock,
 )
 
 products = Blueprint("products", __name__, url_prefix="/products")
