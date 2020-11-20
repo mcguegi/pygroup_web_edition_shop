@@ -1,11 +1,9 @@
 import sys
 from http import HTTPStatus
-<<<<<<< Updated upstream
+
 from flask import Blueprint, Response, request, render_template, redirect, \
     url_for
-=======
-from flask import Blueprint, Response, request, render_template
->>>>>>> Stashed changes
+
 
 from app.products.forms import CreateCategoryForm
 from app.products.models import (
@@ -119,7 +117,7 @@ def get_products_that_need_restock():
 
 @products.route("/register-product-stock/<int:id>", methods=["PUT", "POST"])
 def register_product_refund_in_stock():
-<<<<<<< Updated upstream
+
     # TODO Complete this view to update stock for product when a register for
     # this products exists. If not create the new register in DB
 
@@ -150,8 +148,6 @@ def create_category_form():
         return redirect(url_for('products.success'))
 
     return render_template('create_category_form.html', form=form_category)
-=======
-    pass
 
 @products.route('/add-category-old', methods=['GET', 'POST'])
 def create_category_old():
@@ -162,4 +158,4 @@ def create_category_old():
         status_code = HTTPStatus.CREATED
         return RESPONSE_BODY, status_code
     return render_template("form_category_old.html")
->>>>>>> Stashed changes
+
