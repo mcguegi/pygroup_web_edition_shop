@@ -1,7 +1,11 @@
 import sys
 from http import HTTPStatus
-from flask import Blueprint, Response, request, render_template
 
+from flask import Blueprint, Response, request, render_template, redirect, \
+    url_for
+
+
+from app.products.forms import CreateCategoryForm
 from app.products.models import (
     get_all_categories,
     create_new_category,
@@ -82,7 +86,7 @@ def get_products():
     RESPONSE_BODY["data"] = products_obj
     RESPONSE_BODY["message"] = "Products list"
 
-    return RESPONSE_BODY, 200
+    return RESPONSE_BODY, HTTPStatus.OK
 
 
 @products.route("/product/<int:id>")
@@ -90,7 +94,7 @@ def get_product(id):
     product = get_product_by_id(id)
 
     RESPONSE_BODY["data"] = product
-    return RESPONSE_BODY, 200
+    return RESPONSE_BODY, HTTPStatus.OK
 
 
 @products.route("/product-stock/<int:product_id>")
@@ -129,3 +133,29 @@ def register_product_refund_in_stock():
     else:
         RESPONSE_BODY["message"] = "Method not Allowed"
         status_code = HTTPStatus.METHOD_NOT_ALLOWED
+
+
+@products.route('/success')
+def success():
+    return render_template('category_success.html')
+
+
+@products.route('/create-category-form', methods=['GET', 'POST'])
+def create_category_form():
+    form_category = CreateCategoryForm()
+    if request.method == 'POST' and form_category.validate():
+        create_new_category(name=form_category.name.data)
+        return redirect(url_for('products.success'))
+
+    return render_template('create_category_form.html', form=form_category)
+
+@products.route('/add-category-old', methods=['GET', 'POST'])
+def create_category_old():
+    if request.method=='POST':
+        category = create_new_category(request.form["name"])
+        RESPONSE_BODY["message"] = "Se agrego la categoria {} con exito".format(request.form["name"])
+        RESPONSE_BODY["data"] = category
+        status_code = HTTPStatus.CREATED
+        return RESPONSE_BODY, status_code
+    return render_template("form_category_old.html")
+
