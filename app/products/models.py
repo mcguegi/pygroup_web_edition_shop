@@ -1,15 +1,12 @@
 from datetime import datetime
 
-from flask import jsonify
-
 from app.db import db, ma
 from app.products.exceptions import ModelNotFoundError
 
 
 class Product(db.Model):
-    """
+    """"""
 
-    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     image = db.Column(db.String(500), default="https://bit.ly/3loPYXP")
@@ -17,7 +14,7 @@ class Product(db.Model):
     weight = db.Column(db.Integer, default=1)
     description = db.Column(db.String(500), nullable=True)
     refundable = db.Column(db.Boolean, nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, default=datetime.now())
 
@@ -29,9 +26,8 @@ class ProductSchema(ma.SQLAlchemyAutoSchema):
 
 
 class Category(db.Model):
-    """
+    """"""
 
-    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, default=datetime.now())
@@ -44,11 +40,10 @@ class CategorySchema(ma.SQLAlchemyAutoSchema):
 
 
 class Stock(db.Model):
-    """
+    """"""
 
-    """
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey("product.id"))
     quantity = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, default=datetime.now())

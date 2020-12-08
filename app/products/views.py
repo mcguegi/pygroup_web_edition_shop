@@ -1,8 +1,7 @@
 import sys
 from http import HTTPStatus
 
-from flask import Blueprint, Response, request, render_template, redirect, \
-    url_for
+from flask import Blueprint, Response, request, render_template, redirect, url_for
 
 
 from app.products.forms import CreateCategoryForm
@@ -123,48 +122,49 @@ def register_product_refund_in_stock():
 
     status_code = HTTPStatus.CREATED
     if request.method == "PUT":
-        RESPONSE_BODY["message"] = \
-            "Stock for this product were updated successfully!"
+        RESPONSE_BODY["message"] = "Stock for this product were updated successfully!"
         status_code = HTTPStatus.OK
     elif request.method == "POST":
-        RESPONSE_BODY["message"] = \
-            "Stock for this product were created successfully!"
+        RESPONSE_BODY["message"] = "Stock for this product were created successfully!"
         pass
     else:
         RESPONSE_BODY["message"] = "Method not Allowed"
         status_code = HTTPStatus.METHOD_NOT_ALLOWED
 
 
-@products.route('/success')
+@products.route("/success")
 def success():
-    return render_template('category_success.html')
+    return render_template("category_success.html")
 
 
-@products.route('/create-category-form', methods=['GET', 'POST'])
+@products.route("/create-category-form", methods=["GET", "POST"])
 def create_category_form():
     form_category = CreateCategoryForm()
-    if request.method == 'POST' and form_category.validate():
+    if request.method == "POST" and form_category.validate():
         create_new_category(name=form_category.name.data)
-        return redirect(url_for('products.success'))
+        return redirect(url_for("products.success"))
 
-    return render_template('create_category_form.html', form=form_category)
+    return render_template("create_category_form.html", form=form_category)
 
-@products.route('/add-category-old', methods=['GET', 'POST'])
+
+@products.route("/add-category-old", methods=["GET", "POST"])
 def create_category_old():
-    if request.method=='POST':
+    if request.method == "POST":
         category = create_new_category(request.form["name"])
-        RESPONSE_BODY["message"] = "Se agrego la categoria {} con exito".format(request.form["name"])
+        RESPONSE_BODY["message"] = "Se agrego la categoria {} con exito".format(
+            request.form["name"]
+        )
         RESPONSE_BODY["data"] = category
         status_code = HTTPStatus.CREATED
         return RESPONSE_BODY, status_code
     return render_template("form_category_old.html")
 
 
-@products.route('/show-catalog', methods=['GET'])
+@products.route("/show-catalog", methods=["GET"])
 def show_products_catalog():
     products = get_all_products()
-    my_info = {"products": products, "pygroup": "Pygroup 20 de Nov", "camila" : 7835}
-    return render_template('catalog.html', my_info=my_info)
+    my_info = {"products": products, "pygroup": "Pygroup 20 de Nov", "camila": 7835}
+    return render_template("catalog.html", my_info=my_info)
 
     # Renderizar la plantilla que tengamos en HTML e insertar
     # los datos de nuestra variable de contexto
