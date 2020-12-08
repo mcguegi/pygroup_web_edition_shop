@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="460" height="300" src="coverPygroup.png">
+  <img src="coverPygroup.png">
 </p>
 
 # Pygroup Web Edition Shop
