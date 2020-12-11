@@ -136,7 +136,6 @@ def register_product_refund_in_stock():
 def success():
     return render_template("category_success.html")
 
-
 @products.route("/create-category-form", methods=["GET", "POST"])
 def create_category_form():
     form_category = CreateCategoryForm()
